@@ -49,7 +49,7 @@ if (program.addWord) {
 } else if (program.branches) {
   printOneArrayIndexPerLine(branches);
 } else if (program.commit) {
-  checkAndCommit(program.commit, words);
+  checkAndCommit(program.commit, words, branches);
 } else if (program.forceCommit) {
-  runCommit(program.forceCommit);
+  runCommit(program.forceCommit, branches);
 }

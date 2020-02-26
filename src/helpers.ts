@@ -41,10 +41,11 @@ export const writeValuesToFile = (values: string[], filePath: string) => {
 
 export const checkAndCommit = async (
   commitMessage: string,
-  forbiddenWords: string[]
+  forbiddenWords: string[],
+  forbiddenBranches: string[]
 ) => {
   await checkForForbiddenWords(forbiddenWords);
-  await runCommit(commitMessage);
+  await runCommit(commitMessage, forbiddenBranches);
 };
 
 export const checkForForbiddenWords = async (forbiddenWords: string[]) => {
@@ -100,6 +101,12 @@ export const checkForForbiddenWords = async (forbiddenWords: string[]) => {
   }
 };
 
-export const runCommit = async (commitMessage: string) => {
+export const runCommit = async (commitMessage: string, branches: string[]) => {
+  if (branches.includes((await git.branchLocal()).current)) {
+    console.log(chalk.red('You are trying to commit to a forbidden branch!'));
+
+    process.exit();
+  }
+
   git.commit(commitMessage);
 };
