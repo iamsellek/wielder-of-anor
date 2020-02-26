@@ -1,0 +1,7 @@
+# tool directories
+node_modules
+lib
+
+# wielder-of-anor files
+words.csv
+branches.csv

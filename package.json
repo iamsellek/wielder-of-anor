@@ -1,0 +1,41 @@
+{
+  "name": "wielder-of-anor",
+  "version": "1.0.0",
+  "description": "A gatekeeper that protects your remote git repo.",
+  "main": "./lib/index.js",
+  "bin": {
+    "wielder-of-anor": "./lib/index.js"
+  },
+  "scripts": {
+    "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
+    "create": "npm run build && npm run test",
+    "build": "tsc -p .",
+    "test": "npm i -g && wielder-of-anor",
+    "refresh": "rm -rf ./node_modules ./package-lock.json && npm install"
+  },
+  "keywords": [
+    "gatekeeper",
+    "swearing",
+    "debugger",
+    "console",
+    "logs",
+    "protect",
+    "repo"
+  ],
+  "author": "Chris Sellek",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^3.0.0",
+    "clear": "^0.1.0",
+    "commander": "^4.1.1",
+    "simple-git": "^1.131.0"
+  },
+  "devDependencies": {
+    "@types/chalk": "^2.2.0",
+    "@types/clear": "^0.1.0",
+    "@types/node": "^13.7.1",
+    "nodemon": "^2.0.2",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5"
+  }
+}
