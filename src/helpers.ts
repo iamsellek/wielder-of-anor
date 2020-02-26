@@ -12,9 +12,9 @@ export const getFileContents = (filePath: string): string[] => {
   return [];
 };
 
-export const getArrayFromCommaDileneatedString = (fileContents: string) => {
-  if (fileContents) {
-    return fileContents.split(',');
+export const getArrayFromCommaDileneatedString = (commaString: string) => {
+  if (commaString) {
+    return commaString.split(',');
   }
 
   return [];
@@ -25,13 +25,16 @@ export const addNewItemsToExistingArray = (
   newItems: string[]
 ): string[] => [...array, ...newItems];
 
-export const printOneArrayIndexPerLine = (array: string[]) => {
+export const printOneArrayIndexPerLine = (
+  array: string[],
+  type: 'words' | 'branches'
+) => {
   if (array.length) {
     array.forEach((item, index) => {
       console.log(chalk.italic(`${index + 1}) ${item}`));
     });
   } else {
-    console.log(chalk.red('No words have been added yet.'));
+    console.log(chalk.red(`No ${type} have been added yet.`));
   }
 };
 

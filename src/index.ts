@@ -26,7 +26,10 @@ program
     'Add a new forbidden word or a new list of comma-dileneated words.'
   )
   .option('-W, --words', 'List all forbidden words.')
-  .option('-b --addBranch', 'Add a new forbidden branch.')
+  .option(
+    '-b --addBranch <branch>',
+    'Add a new forbidden branch or a new list of comma-dileneated branches.'
+  )
   .option('-B --branches', 'List all forbidden branches.')
   .option(
     '-c, --commit',
@@ -43,11 +46,13 @@ if (program.addWord) {
   words = addNewItemsToExistingArray(words, newWords);
   writeValuesToFile(words, wordsPath);
 } else if (program.words) {
-  printOneArrayIndexPerLine(words);
+  printOneArrayIndexPerLine(words, 'words');
 } else if (program.addBranch) {
+  const newBranches = getArrayFromCommaDileneatedString(program.addBranch);
+  branches = addNewItemsToExistingArray(branches, newBranches);
   writeValuesToFile(branches, branchesPath);
 } else if (program.branches) {
-  printOneArrayIndexPerLine(branches);
+  printOneArrayIndexPerLine(branches, 'branches');
 } else if (program.commit) {
   checkAndCommit(program.commit, words, branches);
 } else if (program.forceCommit) {
