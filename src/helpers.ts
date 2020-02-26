@@ -39,10 +39,15 @@ export const writeValuesToFile = (values: string[], filePath: string) => {
   fs.writeFileSync(filePath, values.join(','));
 };
 
-export const runCommit = async (
+export const checkAndCommit = async (
   commitMessage: string,
   forbiddenWords: string[]
 ) => {
+  await checkForForbiddenWords(forbiddenWords);
+  await runCommit(commitMessage);
+};
+
+export const checkForForbiddenWords = async (forbiddenWords: string[]) => {
   const status = await git.status();
   let foundForbiddenWord: boolean = false;
 
@@ -68,6 +73,11 @@ export const runCommit = async (
 
   addedFiles.forEach(file => {
     const { path } = file;
+
+    if (path.endsWith('.json')) {
+      return;
+    }
+
     const contents = fs.readFileSync(path);
 
     forbiddenWords.forEach(forbiddenWord => {
@@ -85,7 +95,11 @@ export const runCommit = async (
 
   if (foundForbiddenWord) {
     console.log(chalk.red('Found forbidden word(s). Quitting.'));
-    // bruh
+
     process.exit();
   }
+};
+
+export const runCommit = async (commitMessage: string) => {
+  git.commit(commitMessage);
 };

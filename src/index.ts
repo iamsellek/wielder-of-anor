@@ -2,12 +2,12 @@
 
 import clear from 'clear';
 import program from 'commander';
+import { checkAndCommit, runCommit } from './helpers';
 import {
   addNewItemsToExistingArray,
   getArrayFromCommaDileneatedString,
   getFileContents,
   printOneArrayIndexPerLine,
-  runCommit,
   writeValuesToFile,
 } from './helpers';
 
@@ -32,6 +32,10 @@ program
     '-c, --commit',
     'Check your staged files and commit if no errors are found.'
   )
+  .option(
+    '-f, --forceCommit <message>',
+    'Force a commit, without checking for forbidden words.'
+  )
   .parse(process.argv);
 
 if (program.addWord) {
@@ -45,5 +49,7 @@ if (program.addWord) {
 } else if (program.branches) {
   printOneArrayIndexPerLine(branches);
 } else if (program.commit) {
-  runCommit(program.commit, words);
+  checkAndCommit(program.commit, words);
+} else if (program.forceCommit) {
+  runCommit(program.forceCommit);
 }
