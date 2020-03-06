@@ -54,6 +54,7 @@ export const checkAndCommit = async (
 export const checkForForbiddenWords = async (forbiddenWords: string[]) => {
   const status = await git.status();
   let foundForbiddenWord: boolean = false;
+  console.log(status);
 
   if (status.conflicted.length) {
     console.log(
@@ -61,7 +62,7 @@ export const checkForForbiddenWords = async (forbiddenWords: string[]) => {
     );
 
     process.exit();
-  } else if (status.not_added.length === status.files.length) {
+  } else if (!status.staged.length && !status.created.length) {
     console.log(
       chalk.red(
         `Please ${chalk.italic(
@@ -69,13 +70,16 @@ export const checkForForbiddenWords = async (forbiddenWords: string[]) => {
         )} at least one file and try running Wielder of Anor again.`
       )
     );
+    console.log();
   }
 
-  const addedFiles = status.files.filter(
-    file => !status.not_added.includes(file.path)
+  const filesToCheck = status.files.filter(
+    file =>
+      !status.not_added.includes(file.path) &&
+      !status.deleted.includes(file.path)
   );
 
-  addedFiles.forEach(file => {
+  filesToCheck.forEach(file => {
     const { path } = file;
 
     if (path.endsWith('.json')) {

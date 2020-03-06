@@ -2,21 +2,9 @@
 
 import clear from 'clear';
 import program from 'commander';
-import { checkAndCommit, runCommit } from './helpers';
-import {
-  addNewItemsToExistingArray,
-  getArrayFromCommaDileneatedString,
-  getFileContents,
-  printOneArrayIndexPerLine,
-  writeValuesToFile,
-} from './helpers';
+import { main } from './main';
 
 clear();
-
-const wordsPath = 'words.csv';
-const branchesPath = 'branches.csv';
-let words: string[] = getFileContents(wordsPath);
-let branches: string[] = getFileContents(branchesPath);
 
 program
   .version('1.0.0')
@@ -32,7 +20,7 @@ program
   )
   .option('-B --branches', 'List all forbidden branches.')
   .option(
-    '-c, --commit',
+    '-c, --commit <message>',
     'Check your staged files and commit if no errors are found.'
   )
   .option(
@@ -41,20 +29,4 @@ program
   )
   .parse(process.argv);
 
-if (program.addWord) {
-  const newWords = getArrayFromCommaDileneatedString(program.addWord);
-  words = addNewItemsToExistingArray(words, newWords);
-  writeValuesToFile(words, wordsPath);
-} else if (program.words) {
-  printOneArrayIndexPerLine(words, 'words');
-} else if (program.addBranch) {
-  const newBranches = getArrayFromCommaDileneatedString(program.addBranch);
-  branches = addNewItemsToExistingArray(branches, newBranches);
-  writeValuesToFile(branches, branchesPath);
-} else if (program.branches) {
-  printOneArrayIndexPerLine(branches, 'branches');
-} else if (program.commit) {
-  checkAndCommit(program.commit, words, branches);
-} else if (program.forceCommit) {
-  runCommit(program.forceCommit, branches);
-}
+main(program);
