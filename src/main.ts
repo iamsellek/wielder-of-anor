@@ -1,12 +1,16 @@
 import { CommanderStatic } from 'commander';
-import { checkAndCommit, runCommit, checkForForbiddenWords } from './helpers';
+import {
+  checkAndCommit,
+  runCommit,
+  checkForForbiddenWords,
+} from './helpers/git';
 import {
   addNewItemsToExistingArray,
   getArrayFromCommaDileneatedString,
   getFileContents,
   printOneArrayIndexPerLine,
   writeValuesToFile,
-} from './helpers';
+} from './helpers/helpers';
 
 const wordsPath = 'words.csv';
 const branchesPath = 'branches.csv';
@@ -29,7 +33,7 @@ export const main = (program: CommanderStatic) => {
   } else if (program.commit) {
     checkAndCommit(program.commit, words, branches);
   } else if (program.forceCommit) {
-    runCommit(program.forceCommit, branches);
+    runCommit(program.forceCommit);
   } else {
     checkForForbiddenWords(words);
   }

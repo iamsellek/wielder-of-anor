@@ -1,60 +1,22 @@
+import simpleGit from 'simple-git/promise';
 import chalk from 'chalk';
 import fs from 'fs';
-import simpleGit from 'simple-git/promise';
 
 const git = simpleGit();
-
-export const getFileContents = (filePath: string): string[] => {
-  if (fs.existsSync(filePath)) {
-    return getArrayFromCommaDileneatedString(fs.readFileSync(filePath, 'utf8'));
-  }
-
-  return [];
-};
-
-export const getArrayFromCommaDileneatedString = (commaString: string) => {
-  if (commaString) {
-    return commaString.split(',');
-  }
-
-  return [];
-};
-
-export const addNewItemsToExistingArray = (
-  array: string[],
-  newItems: string[]
-): string[] => [...array, ...newItems];
-
-export const printOneArrayIndexPerLine = (
-  array: string[],
-  type: 'words' | 'branches'
-) => {
-  if (array.length) {
-    array.forEach((item, index) => {
-      console.log(chalk.italic(`${index + 1}) ${item}`));
-    });
-  } else {
-    console.log(chalk.red(`No ${type} have been added yet.`));
-  }
-};
-
-export const writeValuesToFile = (values: string[], filePath: string) => {
-  fs.writeFileSync(filePath, values.join(','));
-};
 
 export const checkAndCommit = async (
   commitMessage: string,
   forbiddenWords: string[],
   forbiddenBranches: string[]
 ) => {
+  await checkForForbiddenBranch(forbiddenBranches);
   await checkForForbiddenWords(forbiddenWords);
-  await runCommit(commitMessage, forbiddenBranches);
+  await runCommit(commitMessage);
 };
 
 export const checkForForbiddenWords = async (forbiddenWords: string[]) => {
   const status = await git.status();
   let foundForbiddenWord: boolean = false;
-  console.log(status);
 
   if (status.conflicted.length) {
     console.log(
@@ -71,6 +33,8 @@ export const checkForForbiddenWords = async (forbiddenWords: string[]) => {
       )
     );
     console.log();
+
+    process.exit();
   }
 
   const filesToCheck = status.files.filter(
@@ -108,12 +72,14 @@ export const checkForForbiddenWords = async (forbiddenWords: string[]) => {
   }
 };
 
-export const runCommit = async (commitMessage: string, branches: string[]) => {
-  if (branches.includes((await git.branchLocal()).current)) {
+export const checkForForbiddenBranch = async (forbiddenBranches: string[]) => {
+  if (forbiddenBranches.includes((await git.branchLocal()).current)) {
     console.log(chalk.red('You are trying to commit to a forbidden branch!'));
 
     process.exit();
   }
+};
 
+export const runCommit = async (commitMessage: string) => {
   git.commit(commitMessage);
 };
