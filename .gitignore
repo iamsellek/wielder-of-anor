@@ -1,6 +1,7 @@
 # tool directories
 node_modules
 lib
+coverage
 
 # wielder-of-anor files
 words.csv

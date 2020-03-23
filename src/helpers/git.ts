@@ -35,40 +35,40 @@ export const checkForForbiddenWords = async (forbiddenWords: string[]) => {
     console.log();
 
     process.exit();
-  }
+  } else {
+    const filesToCheck = status.files.filter(
+      file =>
+        !status.not_added.includes(file.path) &&
+        !status.deleted.includes(file.path)
+    );
 
-  const filesToCheck = status.files.filter(
-    file =>
-      !status.not_added.includes(file.path) &&
-      !status.deleted.includes(file.path)
-  );
+    filesToCheck.forEach(file => {
+      const { path } = file;
 
-  filesToCheck.forEach(file => {
-    const { path } = file;
-
-    if (path.endsWith('.json')) {
-      return;
-    }
-
-    const contents = fs.readFileSync(path);
-
-    forbiddenWords.forEach(forbiddenWord => {
-      if (contents.includes(forbiddenWord)) {
-        console.log(
-          chalk.yellow(`Found word '${forbiddenWord}' in file ${path}.`)
-        );
-        console.log();
-        foundForbiddenWord = true;
-
-        return true;
+      if (path.endsWith('.json')) {
+        return;
       }
+
+      const contents = fs.readFileSync(path);
+
+      forbiddenWords.forEach(forbiddenWord => {
+        if (contents.includes(forbiddenWord)) {
+          console.log(
+            chalk.yellow(`Found word '${forbiddenWord}' in file ${path}.`)
+          );
+          console.log();
+          foundForbiddenWord = true;
+
+          return true;
+        }
+      });
     });
-  });
 
-  if (foundForbiddenWord) {
-    console.log(chalk.red('Found forbidden word(s). Quitting.'));
+    if (foundForbiddenWord) {
+      console.log(chalk.red('Found forbidden word(s). Quitting.'));
 
-    process.exit();
+      process.exit();
+    }
   }
 };
 
