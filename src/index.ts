@@ -7,8 +7,10 @@ import { main } from './main';
 clear();
 
 program
-  .version('1.0.0')
-  .description('A gatekeeper that protects your remote git repo.')
+  .version('1.0.2')
+  .description(
+    'A gatekeeper that protects your remote git repo. Running without arguments will ONLY check for forbidden words.'
+  )
   .option(
     '-w, --addWord <word>',
     'Add a new forbidden word or a new list of comma-dileneated words.'
@@ -21,7 +23,7 @@ program
   .option('-B --branches', 'List all forbidden branches.')
   .option(
     '-c, --commit <message>',
-    'Check your staged files and commit if no errors are found.'
+    'Check your branch, then your staged files, and commit if no errors are found.'
   )
   .option(
     '-f, --forceCommit <message>',
