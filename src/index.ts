@@ -25,7 +25,7 @@ program
   )
   .option(
     '-f, --forceCommit <message>',
-    'Force a commit, without checking for forbidden words.'
+    `Force a commit, WITHOUT checking for forbidden words and WITHOUT checking what branch you're pushing to.`
   )
   .parse(process.argv);
 
