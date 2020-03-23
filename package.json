@@ -2,9 +2,17 @@
   "name": "wielder-of-anor",
   "version": "1.0.0",
   "description": "A gatekeeper that protects your remote git repo.",
-  "main": "./lib/index.js",
+  "main": "/lib/index.js",
+  "types": "/lib/index.d.ts",
   "bin": {
     "wielder-of-anor": "./lib/index.js"
+  },
+  "files": [
+    "lib/**/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iamsellek/wielder-of-anor"
   },
   "scripts": {
     "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
@@ -24,6 +32,10 @@
   ],
   "author": "Chris Sellek",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/iamsellek/wielder-of-anor/issues"
+  },
+  "homepage": "https://github.com/iamsellek/wielder-of-anor#readme",
   "dependencies": {
     "chalk": "^3.0.0",
     "clear": "^0.1.0",
