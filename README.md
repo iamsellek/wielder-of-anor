@@ -46,7 +46,7 @@ environment and need a reliable way to do this, use Wielder of Anor.
 ## Installation
 
 Installation is simple! Just run a `npm install -g wielder-of-anor`, then run
-`wielder-of-anor` and follow the instructions. You're now good to go!
+`wielder-of-anor -h` to see the commands available to you. You're now good to go!
 
 ## Use/What It Does
 
