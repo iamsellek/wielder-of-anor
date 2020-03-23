@@ -82,4 +82,7 @@ export const checkForForbiddenBranch = async (forbiddenBranches: string[]) => {
 
 export const runCommit = async (commitMessage: string) => {
   git.commit(commitMessage);
+  console.log('Committed successfully!');
+
+  process.exit();
 };
