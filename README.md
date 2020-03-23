@@ -59,7 +59,7 @@ Once run, Wielder of Anor will check every file that has been `git add`ed for
 forbidden words and print out any files that contain one of them.
 
 If it found none (or if you're forcing a commit), it will run a commit followed
-by your commit message. Once it prints out "COMMITTED.", execution will end.
+by your commit message. Once it prints out "Committed successfuly!", execution will end.
 Don't forget to run your git push!
 
 ## Wielder of Anor? Wut.
