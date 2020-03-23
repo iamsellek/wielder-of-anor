@@ -18,12 +18,50 @@ export const checkForForbiddenWords = async (forbiddenWords: string[]) => {
   const status = await git.status();
   let foundForbiddenWord: boolean = false;
 
+  checkForCommitIssues(status);
+
+  const filesToCheck = status.files.filter(
+    file =>
+      !status.not_added.includes(file.path) &&
+      !status.deleted.includes(file.path)
+  );
+
+  filesToCheck.forEach(file => {
+    const { path } = file;
+
+    if (path.endsWith('.json')) {
+      return;
+    }
+
+    const contents = fs.readFileSync(path);
+
+    forbiddenWords.forEach(forbiddenWord => {
+      if (contents.includes(forbiddenWord)) {
+        console.log(
+          chalk.yellow(`Found word '${forbiddenWord}' in file ${path}.`)
+        );
+        console.log();
+        foundForbiddenWord = true;
+
+        return true;
+      }
+    });
+  });
+
+  if (foundForbiddenWord) {
+    console.log(chalk.red('Found forbidden word(s). Quitting.'));
+
+    process.exit(1);
+  }
+};
+
+export const checkForCommitIssues = (status: simpleGit.StatusResult) => {
   if (status.conflicted.length) {
     console.log(
       chalk.red('Please fix your conflicts before running Wielder of Anor.')
     );
 
-    process.exit();
+    process.exit(1);
   } else if (!status.staged.length && !status.created.length) {
     console.log(
       chalk.red(
@@ -34,41 +72,7 @@ export const checkForForbiddenWords = async (forbiddenWords: string[]) => {
     );
     console.log();
 
-    process.exit();
-  } else {
-    const filesToCheck = status.files.filter(
-      file =>
-        !status.not_added.includes(file.path) &&
-        !status.deleted.includes(file.path)
-    );
-
-    filesToCheck.forEach(file => {
-      const { path } = file;
-
-      if (path.endsWith('.json')) {
-        return;
-      }
-
-      const contents = fs.readFileSync(path);
-
-      forbiddenWords.forEach(forbiddenWord => {
-        if (contents.includes(forbiddenWord)) {
-          console.log(
-            chalk.yellow(`Found word '${forbiddenWord}' in file ${path}.`)
-          );
-          console.log();
-          foundForbiddenWord = true;
-
-          return true;
-        }
-      });
-    });
-
-    if (foundForbiddenWord) {
-      console.log(chalk.red('Found forbidden word(s). Quitting.'));
-
-      process.exit();
-    }
+    process.exit(1);
   }
 };
 
@@ -76,13 +80,17 @@ export const checkForForbiddenBranch = async (forbiddenBranches: string[]) => {
   if (forbiddenBranches.includes((await git.branchLocal()).current)) {
     console.log(chalk.red('You are trying to commit to a forbidden branch!'));
 
-    process.exit();
+    process.exit(1);
   }
 };
 
 export const runCommit = async (commitMessage: string) => {
+  console.log('bruh');
+  const status = await git.status();
+  checkForCommitIssues(status);
+
   git.commit(commitMessage);
   console.log('Committed successfully!');
 
-  process.exit();
+  process.exit(0);
 };
