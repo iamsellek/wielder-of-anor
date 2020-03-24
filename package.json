@@ -18,7 +18,7 @@
     "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
     "create": "npm run build && npm run test",
     "build": "tsc -p .",
-    "test": "npm i -g && wielder-of-anor",
+    "test": "npm run build && npm i -g",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install",
     "prepublish": "npm test && npm run build"
   },

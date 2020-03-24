@@ -7,7 +7,7 @@ import { main } from './main';
 clear();
 
 program
-  .version('1.0.3')
+  .version('1.0.4')
   .description(
     'A gatekeeper that protects your remote git repo. Running without arguments will ONLY check for forbidden words.'
   )
