@@ -38,20 +38,20 @@
   },
   "homepage": "https://github.com/iamsellek/wielder-of-anor#readme",
   "dependencies": {
-    "chalk": "^3.0.0",
+    "chalk": "^4.1.0",
     "clear": "^0.1.0",
-    "commander": "^4.1.1",
-    "jest": "^25.1.0",
-    "simple-git": "^1.131.0",
-    "ts-jest": "^25.2.1"
+    "commander": "^5.1.0",
+    "jest": "^26.0.1",
+    "simple-git": "^2.7.0",
+    "ts-jest": "^26.1.0"
   },
   "devDependencies": {
     "@types/chalk": "^2.2.0",
     "@types/clear": "^0.1.0",
-    "@types/jest": "^25.1.4",
-    "@types/node": "^13.7.1",
-    "nodemon": "^2.0.2",
-    "ts-node": "^8.6.2",
-    "typescript": "^3.7.5"
+    "@types/jest": "^26.0.0",
+    "@types/node": "^14.0.13",
+    "nodemon": "^2.0.4",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.5"
   }
 }
