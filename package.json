@@ -1,6 +1,6 @@
 {
   "name": "wielder-of-anor",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A gatekeeper that protects your remote git repo.",
   "main": "/lib/index.js",
   "types": "/lib/index.d.ts",
