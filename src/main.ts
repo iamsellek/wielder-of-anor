@@ -1,8 +1,8 @@
-import { CommanderStatic } from 'commander';
+import { OptionValues } from 'commander';
 import {
   checkAndCommit,
-  runCommit,
   checkForForbiddenWords,
+  runCommit,
 } from './helpers/git';
 import {
   addNewItemsToExistingArray,
@@ -17,23 +17,23 @@ const branchesPath = 'branches.csv';
 let words: string[] = getFileContents(wordsPath);
 let branches: string[] = getFileContents(branchesPath);
 
-export const main = (program: CommanderStatic) => {
-  if (program.addWord) {
-    const newWords = getArrayFromCommaDileneatedString(program.addWord);
+export const main = (options: OptionValues) => {
+  if (options.addWord) {
+    const newWords = getArrayFromCommaDileneatedString(options.addWord);
     words = addNewItemsToExistingArray(words, newWords);
     writeValuesToFile(words, wordsPath);
-  } else if (program.words) {
+  } else if (options.words) {
     printOneArrayIndexPerLine(words, 'words');
-  } else if (program.addBranch) {
-    const newBranches = getArrayFromCommaDileneatedString(program.addBranch);
+  } else if (options.addBranch) {
+    const newBranches = getArrayFromCommaDileneatedString(options.addBranch);
     branches = addNewItemsToExistingArray(branches, newBranches);
     writeValuesToFile(branches, branchesPath);
-  } else if (program.branches) {
+  } else if (options.branches) {
     printOneArrayIndexPerLine(branches, 'branches');
-  } else if (program.commit) {
-    checkAndCommit(program.commit, words, branches);
-  } else if (program.forceCommit) {
-    runCommit(program.forceCommit);
+  } else if (options.commit) {
+    checkAndCommit(options.commit, words, branches);
+  } else if (options.forceCommit) {
+    runCommit(options.forceCommit);
   } else {
     checkForForbiddenWords(words);
   }

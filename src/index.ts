@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 
 import clear from 'clear';
-import program from 'commander';
+import { Command } from 'commander';
 import { main } from './main';
 
 clear();
+
+const program = new Command();
 
 program
   .version('1.0.4')
@@ -31,4 +33,4 @@ program
   )
   .parse(process.argv);
 
-main(program);
+main(program.opts());
