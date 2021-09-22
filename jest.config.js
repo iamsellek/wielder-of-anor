@@ -1,7 +1,7 @@
 module.exports = {
   globals: {
     'ts-jest': {
-      tsConfig: 'tsconfig.json',
+      tsconfig: 'tsconfig.json',
     },
   },
   roots: ['<rootDir>/src'],
@@ -12,4 +12,5 @@ module.exports = {
   coverageReporters: ['cobertura', 'html'],
   testPathIgnorePatterns: ['/node_modules'],
   moduleDirectories: ['node_modules', '<rootDir>'],
+  preset: 'ts-jest',
 };
